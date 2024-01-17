@@ -2,10 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-
 public class PlayerScript : MonoBehaviour
 {
     const string RUN = "Run";
+    const string DAMAGE = "Damaged";
 
     NavMeshAgent agent;
     Animator animator;
@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] LayerMask clickableLayers;
 
     float lookRotationSpeed = 8f;
+
+    bool isOnAcidSteam = false;
 
     void Start()
     {
@@ -53,13 +55,27 @@ public class PlayerScript : MonoBehaviour
 
     private void SetAnimation()
     {
-        if (agent.velocity == Vector3.zero)
+        if (isOnAcidSteam)
         {
+            // Play DAMAGE animation
             animator.SetBool(RUN, false);
+            animator.SetBool(DAMAGE, true);
         }
         else
         {
-            animator.SetBool(RUN, true);
+            // Play RUN animation
+            if (agent.velocity == Vector3.zero)
+            {
+                animator.SetBool(RUN, false);
+            }
+            else
+            {
+                animator.Play("Run");
+                animator.SetBool(RUN, true);
+            }
+
+            // Reset DAMAGE animation
+            animator.SetBool(DAMAGE, false);
         }
     }
 
@@ -72,115 +88,32 @@ public class PlayerScript : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Mission"))
+        {
+            other.GetComponent<NpcController>().Notice.SetActive(true);
+
+        }
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("AcidSteam"))
+        {
+            Debug.Log("Detected " + other.name);
+            isOnAcidSteam = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("AcidSteam"))
+        {
+            Debug.Log("Exited " + other.name);
+            isOnAcidSteam = false;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// using System;
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using UnityEngine.AI;
-// using UnityEngine.InputSystem;
-
-// public class PlayerScript : MonoBehaviour
-// {
-//     const string RUN = "Run";
-
-//     CustomActions input;
-//     NavMeshAgent agent;
-
-//     Animator animator;
-
-//     [Header("Movement")]
-//     [SerializeField] ParticleSystem clickEffect;
-//     [SerializeField] LayerMask clickableLayers;
-
-//     float lookRotationSpeed = 8f;
-
-//     void Awake()
-//     {
-//         agent = GetComponent<NavMeshAgent>();
-//         animator = GetComponent<Animator>();
-//         input = new CustomActions();
-//         AssignInputs();
-//     }
-
-
-//     void AssignInputs()
-//     {
-//         input.Main.Move.performed += ctx => ClickToMove();
-//     }
-
-//     void ClickToMove()
-//     {
-//         RaycastHit hit;
-//         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100, clickableLayers))
-//         {
-//             agent.destination = hit.point;
-//             if (clickEffect != null)
-//             {
-//                 Instantiate(clickEffect, hit.point += new Vector3(0, .1f, 0), clickEffect.transform.rotation);
-//             }
-//         }
-//     }
-
-//     private void OnEnable()
-//     {
-//         input.Enable();
-//     }
-
-//     private void OnDisable()
-//     {
-//         input.Disable();
-//     }
-
-//     private void Update()
-//     {
-//         FaceTarget();
-//         SetAnimation();
-//     }
-
-//     private void SetAnimation()
-//     {
-//         if (agent.velocity == Vector3.zero)
-//         {
-//             animator.SetBool(RUN, false);
-
-//         }
-//         else
-//         {
-//             animator.SetBool(RUN, true);
-//         }
-//     }
-
-//     private void FaceTarget()
-//     {
-//         if(agent.velocity != Vector3.zero){
-//         Vector3 dir = (agent.destination - transform.position).normalized;
-//         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
-//         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
-//         }
-//     }
-
-
-// }
