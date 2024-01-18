@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
 
     NavMeshAgent agent;
     Animator animator;
+    public GameObject dialogueBox;
 
     [Header("Movement")]
     [SerializeField] ParticleSystem clickEffect;
@@ -91,16 +92,19 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Mission"))
-        {
-            other.GetComponent<NpcController>().Notice.SetActive(true);
-
-        }
+       
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
+         if (other.CompareTag("Mission"))
+        {
+            
+            other.GetComponent<NpcController>().Notice.SetActive(true);
+            other.GetComponent<DialogueTrigger>().TriggerDialogue();
+
+        }
         if (other.CompareTag("AcidSteam"))
         {
             Debug.Log("Detected " + other.name);
