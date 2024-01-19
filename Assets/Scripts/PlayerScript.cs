@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -90,19 +91,13 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-       
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-         if (other.CompareTag("Mission"))
+        if (other.CompareTag("Mission"))
         {
-            
-            other.GetComponent<NpcController>().Notice.SetActive(true);
-            other.GetComponent<DialogueTrigger>().TriggerDialogue();
+            other.GetComponent<NpcController>().OnTriggerEnter?.Invoke();
+            other.GetComponent<NpcController>().LookAtTarget(transform);
 
         }
         if (other.CompareTag("AcidSteam"))
@@ -112,8 +107,14 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+
     private void OnTriggerExit(Collider other)
     {
+        if (other.CompareTag("Mission"))
+        {
+            other.GetComponent<NpcController>().OnTriggerExit?.Invoke();
+
+        }
         if (other.CompareTag("AcidSteam"))
         {
             Debug.Log("Exited " + other.name);
