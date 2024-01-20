@@ -6,8 +6,16 @@ using UnityEngine.Events;
 public class NpcController : MonoBehaviour
 {
     public float rotationSpeed = 50f;
+    public float collisonDelay = 2f;
+    private BoxCollider collider;
     public UnityEvent OnTriggerEnter;
     public UnityEvent OnTriggerExit;
+
+
+    private void Start()
+    {
+        collider = GetComponent<BoxCollider>();
+    }
 
     public void LookAtTarget(Transform target)
     {
@@ -18,5 +26,14 @@ public class NpcController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
-    
+    public IEnumerator TriggerDelay()
+    {
+        collider.isTrigger = false;
+        yield return new WaitForSeconds(collisonDelay);
+        collider.isTrigger = true;
+    }
+
+
+
+
 }

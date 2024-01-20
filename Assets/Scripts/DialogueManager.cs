@@ -7,24 +7,39 @@ using UnityEngine.AI;
 
 public class DialogueManager : MonoBehaviour
 {
+    [HideInInspector]
+    public Dialogue defaultDialogue;
+
+
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI dialogueText;
-    public Animator animator;
+    // public Animator animator;
     public GameObject dialogueBox;
     public GameObject player;
-
     private Queue<string> sentences;
 
     void Start()
     {
         sentences = new Queue<string>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        Initialize(defaultDialogue);
+    }
+
+    private void Initialize(Dialogue dialogue)
+    {
+        if (dialogue != null)
+        {
+            StartDialogue(dialogue, null);
+        }
+        else
+        {
+            EndDialogue();
+        }
     }
 
     public void StartDialogue(Dialogue dialogue, UnityEvent onConversationEndEvent)
     {
         dialogueBox.SetActive(true);
-        animator.SetBool("isOpen", true);
+        // animator.SetBool("isOpen", true);
         player.transform.Translate(Vector3.zero);
         player.GetComponent<NavMeshAgent>().enabled = false;
         player.GetComponent<PlayerScript>().enabled = false;
@@ -73,11 +88,11 @@ public class DialogueManager : MonoBehaviour
     {
         // Debug.Log("End of Convo");
 
-        animator.enabled = false;
+        // animator.enabled = false;
         dialogueBox.SetActive(false);
-        animator.SetBool("isOpen", !true);
+        // animator.SetBool("isOpen", !true);
         player.GetComponent<PlayerScript>().enabled = true;
-         player.GetComponent<NavMeshAgent>().enabled = true;
+        player.GetComponent<NavMeshAgent>().enabled = true;
 
         // Invoke the stored UnityEvent when conversation ends
         onConversationEnd?.Invoke();

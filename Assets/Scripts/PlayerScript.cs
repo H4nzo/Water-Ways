@@ -10,7 +10,6 @@ public class PlayerScript : MonoBehaviour
 
     NavMeshAgent agent;
     Animator animator;
-    public GameObject dialogueBox;
 
     [Header("Movement")]
     [SerializeField] ParticleSystem clickEffect;
@@ -19,6 +18,11 @@ public class PlayerScript : MonoBehaviour
     float lookRotationSpeed = 8f;
 
     bool isOnAcidSteam = false;
+
+    [Header("Foot Step")]
+    public Transform footAnchor;
+    public GameObject footStepFX;
+
 
     void Start()
     {
@@ -37,6 +41,7 @@ public class PlayerScript : MonoBehaviour
 
         FaceTarget();
         SetAnimation();
+
     }
 
     void ClickToMove(Vector2 inputPosition)
@@ -85,7 +90,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (agent.velocity != Vector3.zero)
         {
-            Vector3 dir = (agent.destination - transform.position).normalized;
+            Vector3 dir = (agent.steeringTarget - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * lookRotationSpeed);
         }
@@ -121,4 +126,18 @@ public class PlayerScript : MonoBehaviour
             isOnAcidSteam = false;
         }
     }
+
+    //Animator Event System
+    void FootStep()
+    {
+        Instantiate(footStepFX, footAnchor.position, footAnchor.rotation);
+    }
+
+
+
 }
+
+
+
+
+
