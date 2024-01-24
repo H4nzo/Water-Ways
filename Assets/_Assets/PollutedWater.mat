@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6289249200648638072
+--- !u!114 &-4553133529297102151
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MAT_WATER_TROPICAL
+  m_Name: PollutedWater
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords:
   - _EMISSION
@@ -201,6 +201,7 @@ Material:
     - _DrawnMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Exponent: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.908
     - _GlossyReflections: 1
@@ -209,6 +210,7 @@ Material:
     - _IndirectFade: 1
     - _Initialized: 0
     - _InputTab: 1
+    - _Intensity: 1
     - _Iridescence: 0
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
@@ -227,8 +229,8 @@ Material:
     - _OutlineFadeMax: 2
     - _OutlineFadeMin: 0.25
     - _OutlineNoise: 0
-    - _OutlineSize: 5
-    - _OutlineTab: 0
+    - _OutlineSize: 7
+    - _OutlineTab: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -269,8 +271,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AlbedoColor: {r: 0.13585785, g: 0.6698113, b: 0.57614607, a: 0.79607844}
-    - _BaseColor: {r: 0.10933607, g: 0.730458, b: 0.8584906, a: 0.79607844}
-    - _Color: {r: 0.10933604, g: 0.730458, b: 0.8584906, a: 0.79607844}
+    - _BaseColor: {r: 0.33922213, g: 0.9339623, b: 0.92181706, a: 0.79607844}
+    - _Color: {r: 0.33922207, g: 0.9339623, b: 0.92181706, a: 0.79607844}
+    - _Color0: {r: 1, g: 0, b: 0, a: 1}
+    - _Color1: {r: 0, g: 1, b: 0, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
@@ -280,6 +284,7 @@ Material:
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Rotation: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}

@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using TMPro;
+
 
 public class PlayerScript : MonoBehaviour
 {
@@ -23,6 +25,9 @@ public class PlayerScript : MonoBehaviour
     public Transform footAnchor;
     public GameObject footStepFX;
 
+    [Header("Quest Functions")]
+    public Quest quest;
+    public TextMeshProUGUI scoreText;
 
     void Start()
     {
@@ -37,6 +42,11 @@ public class PlayerScript : MonoBehaviour
         {
             Vector2 inputPosition = Input.GetMouseButtonDown(0) ? Input.mousePosition : Input.GetTouch(0).position;
             ClickToMove(inputPosition);
+        }
+
+        if (quest != null && quest.isActive == true)
+        {
+            UpdateUI();
         }
 
         FaceTarget();
@@ -110,6 +120,24 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("Detected " + other.name);
             isOnAcidSteam = true;
         }
+
+        if (other.CompareTag("Well"))
+        {
+            if (quest.isActive)
+            {
+                quest.goal.ItemFound();
+                other.GetComponent<CustomEvent>().Trigger?.Invoke();
+                other.GetComponent<Collider>().enabled = false;
+                if (quest.goal.isReached())
+                {
+                    //Activate Checkmark
+                      UpdateUI();
+                  quest.Complete();
+                  quest = null;
+
+                }
+            }
+        }
     }
 
 
@@ -127,11 +155,19 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+
+    void UpdateUI()
+    {
+        scoreText.text = $"{quest.goal.currentAmount}/{quest.goal.requiredAmount}";
+    }
+
+
     //Animator Event System
     void FootStep()
     {
         Instantiate(footStepFX, footAnchor.position, footAnchor.rotation);
     }
+
 
 
 
