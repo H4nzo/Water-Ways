@@ -131,9 +131,9 @@ public class PlayerScript : MonoBehaviour
                 if (quest.goal.isReached())
                 {
                     //Activate Checkmark
-                      UpdateUI();
-                  quest.Complete();
-                  quest = null;
+                    UpdateUI();
+                    quest.Complete();
+                    quest = null;
 
                 }
             }
@@ -167,6 +167,7 @@ public class PlayerScript : MonoBehaviour
     {
         Instantiate(footStepFX, footAnchor.position, footAnchor.rotation);
     }
+   
 
 
 

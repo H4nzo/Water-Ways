@@ -15,17 +15,17 @@ public class QuestManager : MonoBehaviour
     public void AssignDescription()
     {
 
-        if (TMPdescriptions.Length == allQuestDescriptions.Count)
-        {
+        // if (TMPdescriptions.Length == allQuestDescriptions.Count)
+        // {
 
             for (int i = 0; i < TMPdescriptions.Length; i++)
             {
                 TMPdescriptions[i].text = allQuestDescriptions[i];
             }
-        }
-        else
-        {
-            return;
-        }
+        // }
+        // else
+        // {
+        //     return;
+        // }
     }
 }
