@@ -22,8 +22,9 @@ public class PlayerScript : MonoBehaviour
     bool isOnAcidSteam = false;
 
     [Header("Foot Step")]
-    public Transform footAnchor;
-    public GameObject footStepFX;
+    public Transform LeftfootAnchor;
+    public Transform RightfootAnchor;
+    public GameObject footStepMark;
 
     [Header("Quest Functions")]
     public Quest quest;
@@ -163,11 +164,14 @@ public class PlayerScript : MonoBehaviour
 
 
     //Animator Event System
-    void FootStep()
+    void RightFootStep()
     {
-        Instantiate(footStepFX, footAnchor.position, footAnchor.rotation);
+        Instantiate(footStepMark, RightfootAnchor.position, RightfootAnchor.rotation);
     }
-   
+    void LeftFootStep()
+    {
+        Instantiate(footStepMark, LeftfootAnchor.position, LeftfootAnchor.rotation);
+    }
 
 
 
