@@ -17,10 +17,15 @@ public class LocomotionController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        currentWaypointIndex = Random.Range(0, waypoints.Length);
         // Check if there are any waypoints assigned
         if (waypoints.Length > 0)
         {
+            // If the NavMeshAgent has a path and is close to the current destination, proceed to the next waypoint
+            if (navMeshAgent.hasPath && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            {
+                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+            }
+
             SetDestinationToWaypoint();
         }
         else
@@ -28,6 +33,7 @@ public class LocomotionController : MonoBehaviour
             Debug.LogError("No waypoints assigned to NPCMovement script on " + gameObject.name);
         }
     }
+
 
     void Update()
     {
@@ -66,4 +72,6 @@ public class LocomotionController : MonoBehaviour
         // Set the destination of the NavMeshAgent to the current waypoint
         navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
     }
+
+
 }

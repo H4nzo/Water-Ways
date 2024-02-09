@@ -5,7 +5,7 @@ using UnityEngine;
 public enum GoalType
 {
     Gathering,
-    Meetup,
+    Investigate,
 }
 
 [System.Serializable]
@@ -27,9 +27,9 @@ public class QuestGoal
             currentAmount++;
     }
 
-    public void ItemRetrieved()
+    public void ItemInvestigated()
     {
-        if (goalType == GoalType.Meetup)
+        if (goalType == GoalType.Investigate)
             currentAmount++;
     }
 

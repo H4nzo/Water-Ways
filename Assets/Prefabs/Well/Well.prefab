@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7658132041302645534}
   - component: {fileID: 7658132041304064836}
   - component: {fileID: 7658132041289700468}
-  - component: {fileID: 5386736274377801453}
+  - component: {fileID: 1110624339}
   m_Layer: 0
   m_Name: Well
   m_TagString: Well
@@ -101,7 +101,7 @@ CapsuleCollider:
   m_Height: 3.7934248
   m_Direction: 1
   m_Center: {x: -0.0067118406, y: 0.95, z: 0.0025638938}
---- !u!114 &5386736274377801453
+--- !u!114 &1110624339
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,12 +110,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7658132041301588650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df2ae40e3ee4042c4a28ce39070bdf66, type: 3}
+  m_Script: {fileID: 11500000, guid: 75224bed6985545758264a902097f49c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Trigger:
+  onTrigger:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1110624339}
+        m_TargetAssemblyTypeName: ObjectBehaviour, Assembly-CSharp
+        m_MethodName: GatheringCount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2289403636488516654}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive

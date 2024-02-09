@@ -116,29 +116,7 @@ public class PlayerScript : MonoBehaviour
             other.GetComponent<NpcController>().LookAtTarget(transform);
 
         }
-        if (other.CompareTag("AcidSteam"))
-        {
-            Debug.Log("Detected " + other.name);
-            isOnAcidSteam = true;
-        }
-
-        if (other.CompareTag("Well"))
-        {
-            if (quest.isActive)
-            {
-                quest.goal.ItemFound();
-                other.GetComponent<CustomEvent>().Trigger?.Invoke();
-                other.GetComponent<Collider>().enabled = false;
-                if (quest.goal.isReached())
-                {
-                    //Activate Checkmark
-                    UpdateUI();
-                    quest.Complete();
-                    quest = null;
-
-                }
-            }
-        }
+       
     }
 
 
@@ -157,7 +135,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         scoreText.text = $"{quest.goal.currentAmount}/{quest.goal.requiredAmount}";
     }

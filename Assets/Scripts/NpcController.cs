@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AnimatorHelper))]
 public class NpcController : MonoBehaviour
 {
     public float rotationSpeed = 50f;
@@ -34,6 +35,15 @@ public class NpcController : MonoBehaviour
     }
 
 
+}
 
+public class NpcAnimatorHelper : MonoBehaviour
+{
+    public Animator animator;
+    public string paramName = "isTalking";
 
+    public void SetAnimationBool(bool value)
+    {
+        animator.SetBool(paramName, value);
+    }
 }
