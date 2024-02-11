@@ -35,7 +35,9 @@ public class LocomotionController : MonoBehaviour
         }
     }
 
-    void Update()
+   void Update()
+{
+    if (!PauseScript.isPaused)
     {
         if (!isIdling && !currentWaypoint.IsOccupied())
         {
@@ -72,7 +74,19 @@ public class LocomotionController : MonoBehaviour
         {
             animator.SetFloat("Speed", 1f);
         }
+        
+        // Enable NavMeshAgent and Animator when not paused
+        navMeshAgent.enabled = true;
+        animator.enabled = true;
     }
+    else
+    {
+        // If game is paused, disable NavMeshAgent and Animator
+        navMeshAgent.enabled = false;
+        animator.enabled = false;
+    }
+}
+
 
     void SetDestinationToWaypoint()
     {

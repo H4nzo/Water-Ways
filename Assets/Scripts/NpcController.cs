@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(AnimatorHelper))]
@@ -16,6 +17,21 @@ public class NpcController : MonoBehaviour
     private void Start()
     {
         collider = GetComponent<BoxCollider>();
+    }
+
+    void Update()
+    {
+        if (!PauseScript.isPaused) // Check if the game is not paused
+        {
+            GetComponent<Animator>().enabled = true;
+            GetComponent<NavMeshAgent>().enabled = true; // Put your regular update logic here
+        }
+        else
+        {
+             GetComponent<Animator>().enabled = !true;
+            GetComponent<NavMeshAgent>().enabled = !true; // Put your regular update logic here
+        }
+        
     }
 
     public void LookAtTarget(Transform target)
