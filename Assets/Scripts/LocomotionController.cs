@@ -1,14 +1,21 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum WaypointSelectionMode
+{
+    Random,
+    Sequential
+}
+
 public class LocomotionController : MonoBehaviour
 {
-    public Transform[] waypoints; // Array to hold the waypoints
+    public WaypointSelectionMode waypointSelectionMode = WaypointSelectionMode.Sequential; // Enum to choose waypoint selection mode
+    public Waypoint[] waypoints; // Array to hold the waypoints
     [SerializeField] private int currentWaypointIndex = 0; // Index of the current waypoint
     private NavMeshAgent navMeshAgent;
     private Animator animator;
+    private Waypoint currentWaypoint;
 
-    public float idleDuration = 10f; // Duration in seconds to idle at each waypoint
     private float idleTimer = 0f;
     private bool isIdling = false;
 
@@ -17,61 +24,85 @@ public class LocomotionController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        // Check if there are any waypoints assigned
         if (waypoints.Length > 0)
         {
-            // If the NavMeshAgent has a path and is close to the current destination, proceed to the next waypoint
-            if (navMeshAgent.hasPath && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            {
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            }
-
+            SetNextWaypointIndex();
             SetDestinationToWaypoint();
         }
         else
         {
-            Debug.LogError("No waypoints assigned to NPCMovement script on " + gameObject.name);
+            Debug.LogError("No waypoints assigned to LocomotionController script on " + gameObject.name);
         }
     }
 
-
     void Update()
     {
-        // Check if the NPC has reached the current waypoint
+        if (!isIdling && !currentWaypoint.IsOccupied())
+        {
+            currentWaypoint.Occupy(gameObject);
+        }
+        else if (!isIdling && currentWaypoint.IsOccupied() && currentWaypoint.GetVisitingNPC() != gameObject)
+        {
+            // Find another unoccupied waypoint
+            FindUnoccupiedWaypoint();
+        }
+
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
             if (!isIdling)
             {
-                // Start idling
-                animator.SetFloat("Speed", 0f); // Set speed parameter to 0 to transition to idle
+                animator.SetFloat("Speed", 0f);
                 isIdling = true;
                 idleTimer = 0f;
             }
             else
             {
-                // Increment idle timer
                 idleTimer += Time.deltaTime;
-                if (idleTimer >= idleDuration)
+                if (idleTimer >= currentWaypoint.idleDuration)
                 {
-                    // Stop idling and proceed to the next waypoint
                     isIdling = false;
-                    currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                    // Release the current waypoint
+                    currentWaypoint.Release();
+                    SetNextWaypointIndex();
                     SetDestinationToWaypoint();
                 }
             }
         }
         else
         {
-            // NPC is moving, set speed parameter to 1 for movement animation
             animator.SetFloat("Speed", 1f);
         }
     }
 
     void SetDestinationToWaypoint()
     {
-        // Set the destination of the NavMeshAgent to the current waypoint
-        navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
+        currentWaypoint = waypoints[currentWaypointIndex];
+        navMeshAgent.SetDestination(currentWaypoint.transform.position);
     }
 
+    void SetNextWaypointIndex()
+    {
+        if (waypointSelectionMode == WaypointSelectionMode.Sequential)
+        {
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+        }
+        else if (waypointSelectionMode == WaypointSelectionMode.Random)
+        {
+            currentWaypointIndex = Random.Range(0, waypoints.Length);
+        }
+    }
 
+    void FindUnoccupiedWaypoint()
+    {
+        for (int i = 0; i < waypoints.Length; i++)
+        {
+            if (!waypoints[i].IsOccupied())
+            {
+                currentWaypoint.Release();
+                currentWaypointIndex = i;
+                SetDestinationToWaypoint();
+                return;
+            }
+        }
+    }
 }

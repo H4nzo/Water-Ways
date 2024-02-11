@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 33000010443179684}
   - component: {fileID: 23000013858981778}
   - component: {fileID: 64000012728115920}
-  - component: {fileID: 1095694679670411695}
   m_Layer: 0
   m_Name: Boat1
   m_TagString: Untagged
@@ -99,22 +98,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 2426b3432b03df2429520e3a1ecc561b, type: 3}
---- !u!205 &1095694679670411695
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011501171274}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: 0, y: 0.8068167, z: -0.0000030994415}
-  m_Size: 9.195853
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.22203793
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 23000013858981778}
-  m_Enabled: 1

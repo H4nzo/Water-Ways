@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class QuestGiver : MonoBehaviour
 {
     public Quest quest;
+    public QuestAssist questAssist;
+
     public PlayerScript player;
     public TextMeshProUGUI descriptionText;
     public Button missionButton;
@@ -14,6 +16,7 @@ public class QuestGiver : MonoBehaviour
     public bool questCompleted = false;
 
     public QuestManager questManager;
+
 
     void Start()
     {
@@ -84,6 +87,12 @@ public class QuestGiver : MonoBehaviour
 #endif
 
         }
+    }
+
+    public void AssignDescription(string desc)
+    {
+        questAssist.description = desc;
+       questAssist.descriptionText_Optional.text = questAssist.description;
     }
 
 
